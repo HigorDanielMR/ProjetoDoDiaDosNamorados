@@ -10,7 +10,7 @@ import ThemeToggle from './components/ThemeToggle.vue'
 import { useTheme } from './composables/useTheme'
 
 // Inicializa o tema
-const { theme } = useTheme()
+const {theme: _theme } = useTheme()
 </script>
 
 <style>
