@@ -1,14 +1,14 @@
 <template>
   <button 
-    class="theme-toggle"
-    @click="toggleTheme"
-    :title="isDark ? 'Mudar para tema claro' : 'Mudar para tema escuro'"
+    class="alternador-tema"
+    @click="alternarTema"
+    :title="temaEscuro ? 'Mudar para tema claro' : 'Mudar para tema escuro'"
   >
-    <div class="toggle-container">
-      <div class="toggle-slider" :class="{ 'dark': isDark }">
-        <div class="toggle-icon">
-          <span v-if="isDark" class="icon">🌙</span>
-          <span v-else class="icon">☀️</span>
+    <div class="container-alternador">
+      <div class="deslizador-alternador" :class="{ 'escuro': temaEscuro }">
+        <div class="icone-alternador">
+          <span v-if="temaEscuro" class="icone">🌙</span>
+          <span v-else class="icone">☀️</span>
         </div>
       </div>
     </div>
@@ -18,11 +18,11 @@
 <script setup lang="ts">
 import { useTheme } from '../composables/useTheme'
 
-const { isDark, toggleTheme } = useTheme()
+const { isDark: temaEscuro, toggleTheme: alternarTema } = useTheme()
 </script>
 
 <style scoped>
-.theme-toggle {
+.alternador-tema {
   position: fixed;
   top: 2rem;
   right: 2rem;
@@ -33,21 +33,21 @@ const { isDark, toggleTheme } = useTheme()
   padding: 0;
 }
 
-.toggle-container {
+.container-alternador {
   width: 60px;
   height: 30px;
-  background: var(--toggle-bg);
+  background: var(--fundo-alternador);
   border-radius: 15px;
   position: relative;
   transition: all 0.3s ease;
-  border: 2px solid var(--toggle-border);
-  box-shadow: 0 4px 15px var(--toggle-shadow);
+  border: 2px solid var(--borda-alternador);
+  box-shadow: 0 4px 15px var(--sombra-alternador);
 }
 
-.toggle-slider {
+.deslizador-alternador {
   width: 26px;
   height: 26px;
-  background: var(--toggle-slider-bg);
+  background: var(--fundo-deslizador);
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -57,66 +57,66 @@ const { isDark, toggleTheme } = useTheme()
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px var(--toggle-slider-shadow);
+  box-shadow: 0 2px 8px var(--sombra-deslizador);
 }
 
-.toggle-slider.dark {
+.deslizador-alternador.escuro {
   left: calc(100% - 28px);
 }
 
-.toggle-icon {
+.icone-alternador {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.icon {
+.icone {
   font-size: 0.9rem;
   transition: all 0.3s ease;
 }
 
-.theme-toggle:hover .toggle-container {
+.alternador-tema:hover .container-alternador {
   transform: scale(1.05);
 }
 
 /* Variáveis CSS para temas */
 :root {
-  --toggle-bg: rgba(255, 255, 255, 0.2);
-  --toggle-border: rgba(255, 255, 255, 0.3);
-  --toggle-shadow: rgba(0, 0, 0, 0.1);
-  --toggle-slider-bg: #ffffff;
-  --toggle-slider-shadow: rgba(0, 0, 0, 0.2);
+  --fundo-alternador: rgba(255, 255, 255, 0.2);
+  --borda-alternador: rgba(255, 255, 255, 0.3);
+  --sombra-alternador: rgba(0, 0, 0, 0.1);
+  --fundo-deslizador: #ffffff;
+  --sombra-deslizador: rgba(0, 0, 0, 0.2);
 }
 
 :global(.dark-theme) {
-  --toggle-bg: rgba(0, 0, 0, 0.3);
-  --toggle-border: rgba(255, 255, 255, 0.2);
-  --toggle-shadow: rgba(0, 0, 0, 0.3);
-  --toggle-slider-bg: #2D3748;
-  --toggle-slider-shadow: rgba(0, 0, 0, 0.4);
+  --fundo-alternador: rgba(0, 0, 0, 0.3);
+  --borda-alternador: rgba(255, 255, 255, 0.2);
+  --sombra-alternador: rgba(0, 0, 0, 0.3);
+  --fundo-deslizador: #2D3748;
+  --sombra-deslizador: rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 768px) {
-  .theme-toggle {
+  .alternador-tema {
     top: 1rem;
     right: 1rem;
   }
   
-  .toggle-container {
+  .container-alternador {
     width: 50px;
     height: 25px;
   }
   
-  .toggle-slider {
+  .deslizador-alternador {
     width: 21px;
     height: 21px;
   }
   
-  .toggle-slider.dark {
+  .deslizador-alternador.escuro {
     left: calc(100% - 23px);
   }
   
-  .icon {
+  .icone {
     font-size: 0.8rem;
   }
 }

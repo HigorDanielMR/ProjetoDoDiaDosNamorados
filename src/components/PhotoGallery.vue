@@ -1,103 +1,115 @@
 <template>
-  <div class="photo-gallery">
-    <div class="gallery-header">
-      <h2 class="gallery-title">
-        <span class="title-icon">📸</span>
+  <div class="galeria-fotos">
+    <div class="cabecalho-galeria">
+      <h2 class="titulo-galeria">
+        <span class="icone-titulo">📸</span>
         Galeria de Momentos Especiais
       </h2>
-      <p class="gallery-description">
+      <p class="descricao-galeria">
         Adicione e preserve suas memórias mais preciosas
       </p>
+      
+      <!-- Indicador de sincronização de fotos -->
+      <div v-if="estaCarregandoFotos" class="indicador-sincronizacao-fotos">
+        <div class="spinner-sincronizacao"></div>
+        <span class="texto-sincronizacao">Carregando fotos...</span>
+      </div>
     </div>
 
-    <div class="upload-section">
-      <div class="upload-area" @click="triggerFileInput" @dragover.prevent @drop.prevent="handleDrop">
+    <div class="secao-upload">
+      <div class="area-upload" @click="acionarInputArquivo" @dragover.prevent @drop.prevent="lidarComArrastar">
         <input 
-          ref="fileInput" 
+          ref="inputArquivo" 
           type="file" 
           multiple 
           accept="image/*" 
-          @change="handleFileSelect"
-          style="display: none"
+          @change="lidarComSelecaoArquivo"
+          class="input-arquivo-oculto"
         >
-        <div class="upload-content">
-          <div class="upload-icon-container">
-            <div class="upload-icon">📷</div>
-            <div class="click-indicator">👆</div>
+        <div class="conteudo-upload">
+          <div class="container-icone-upload">
+            <div class="icone-upload">📷</div>
+            <div class="indicador-clique">👆</div>
           </div>
-          <h3 class="upload-title">Adicionar Fotos</h3>
-          <div class="upload-instructions">
-            <p class="primary-instruction">
+          <h3 class="titulo-upload">Adicionar Fotos</h3>
+          <div class="instrucoes-upload">
+            <p class="instrucao-principal">
               <strong>👆 CLIQUE AQUI</strong> para selecionar suas fotos
             </p>
-            <p class="secondary-instruction">
+            <p class="instrucao-secundaria">
               ou arraste e solte suas imagens nesta área
             </p>
           </div>
-          <div class="upload-details">
-            <span class="detail-item">📁 Formatos: JPG, PNG, GIF</span>
-            <span class="detail-item">📏 Máximo: 5MB cada</span>
-            <span class="detail-item">🖼️ Múltiplas fotos aceitas</span>
+          <div class="detalhes-upload">
+            <span class="item-detalhe">📁 Formatos: JPG, PNG, GIF</span>
+            <span class="item-detalhe">📏 Máximo: 5MB cada</span>
+            <span class="item-detalhe">🖼️ Múltiplas fotos aceitas</span>
           </div>
-          <div class="upload-button-visual">
-            <span class="button-text">Clique para Escolher Fotos</span>
+          <div class="botao-visual-upload">
+            <span class="texto-botao">Clique para Escolher Fotos</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-if="photos.length > 0" class="photos-grid">
+    <!-- Indicador de carregamento -->
+    <div v-if="estaEnviando" class="indicador-carregamento">
+      <div class="spinner-carregamento"></div>
+      <p>Salvando suas fotos...</p>
+    </div>
+
+    <div v-if="fotos.length > 0" class="grade-fotos">
       <div 
-        v-for="(photo, index) in photos" 
-        :key="photo.id"
-        class="photo-item"
-        @click="openLightbox(index)"
+        v-for="(foto, indice) in fotos" 
+        :key="foto.id"
+        class="item-foto"
+        @click="abrirLightbox(indice)"
       >
-        <img :src="photo.url" :alt="photo.name" class="photo-image">
-        <div class="photo-overlay">
-          <div class="photo-actions">
-            <button @click.stop="downloadPhoto(photo)" class="action-btn download-btn" title="Baixar">
+        <img :src="foto.url" :alt="foto.nome" class="imagem-foto">
+        <div class="sobreposicao-foto">
+          <div class="acoes-foto">
+            <button @click.stop="baixarFoto(foto)" class="botao-acao botao-baixar" title="Baixar">
               📥
             </button>
-            <button @click.stop="deletePhoto(photo.id)" class="action-btn delete-btn" title="Excluir">
+            <button @click.stop="deletarFoto(foto.id)" class="botao-acao botao-deletar" title="Excluir">
               🗑️
             </button>
           </div>
-          <div class="photo-info">
-            <span class="photo-name">{{ photo.name }}</span>
-            <span class="photo-date">{{ formatDate(photo.uploadDate) }}</span>
+          <div class="informacoes-foto">
+            <span class="nome-foto">{{ foto.nome }}</span>
+            <span class="data-foto">{{ formatarData(foto.dataEnvio) }}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-else class="empty-gallery">
-      <div class="empty-icon">🖼️</div>
+    <div v-else-if="!estaEnviando && !estaCarregandoFotos" class="galeria-vazia">
+      <div class="icone-vazio">🖼️</div>
       <h3>Nenhuma foto ainda</h3>
       <p>Adicione suas primeiras memórias especiais!</p>
-      <div class="empty-cta">
-        <span class="cta-arrow">👆</span>
-        <span class="cta-text">Clique na área acima para começar</span>
+      <div class="chamada-vazia">
+        <span class="seta-chamada">👆</span>
+        <span class="texto-chamada">Clique na área acima para começar</span>
       </div>
     </div>
 
-    <!-- Lightbox Modal -->
-    <div v-if="lightboxOpen" class="lightbox-overlay" @click="closeLightbox">
-      <div class="lightbox-content" @click.stop>
-        <button class="lightbox-close" @click="closeLightbox">×</button>
-        <button class="lightbox-nav prev" @click="previousPhoto" v-if="photos.length > 1">‹</button>
-        <button class="lightbox-nav next" @click="nextPhoto" v-if="photos.length > 1">›</button>
+    <!-- Modal Lightbox -->
+    <div v-if="lightboxAberto" class="sobreposicao-lightbox" @click="fecharLightbox">
+      <div class="conteudo-lightbox" @click.stop>
+        <button class="fechar-lightbox" @click="fecharLightbox">×</button>
+        <button class="navegacao-lightbox anterior" @click="fotoAnterior" v-if="fotos.length > 1">‹</button>
+        <button class="navegacao-lightbox proxima" @click="proximaFoto" v-if="fotos.length > 1">›</button>
         
         <img 
-          :src="photos[currentPhotoIndex]?.url" 
-          :alt="photos[currentPhotoIndex]?.name"
-          class="lightbox-image"
+          :src="fotos[indiceFotoAtual]?.url" 
+          :alt="fotos[indiceFotoAtual]?.nome"
+          class="imagem-lightbox"
         >
         
-        <div class="lightbox-info">
-          <h3>{{ photos[currentPhotoIndex]?.name }}</h3>
-          <p>{{ formatDate(photos[currentPhotoIndex]?.uploadDate) }}</p>
-          <span class="photo-counter">{{ currentPhotoIndex + 1 }} de {{ photos.length }}</span>
+        <div class="informacoes-lightbox">
+          <h3>{{ fotos[indiceFotoAtual]?.nome }}</h3>
+          <p>{{ formatarData(fotos[indiceFotoAtual]?.dataEnvio) }}</p>
+          <span class="contador-foto">{{ indiceFotoAtual + 1 }} de {{ fotos.length }}</span>
         </div>
       </div>
     </div>
@@ -105,117 +117,209 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { apiFotos, type Foto } from '../services/api'
 
-interface Photo {
-  id: string
-  name: string
-  url: string
-  uploadDate: Date
-  file?: File
-}
+// Estados reativos
+const fotos = ref<Foto[]>([])
+const inputArquivo = ref<HTMLInputElement>()
+const lightboxAberto = ref(false)
+const indiceFotoAtual = ref(0)
+const estaEnviando = ref(false)
+const estaCarregandoFotos = ref(false)
 
-const photos = ref<Photo[]>([])
-const fileInput = ref<HTMLInputElement>()
-const lightboxOpen = ref(false)
-const currentPhotoIndex = ref(0)
+// Intervalo para sincronização automática
+let intervaloSincronizacao: number | null = null
+const INTERVALO_SINCRONIZACAO_FOTOS = 10000 // 10 segundos
 
-// Carrega fotos salvas do localStorage
-onMounted(() => {
-  loadPhotosFromStorage()
+// Carrega fotos do servidor quando o componente é montado
+onMounted(async () => {
+  await carregarFotosDoServidor()
+  iniciarSincronizacaoFotos()
 })
 
-const loadPhotosFromStorage = () => {
-  const savedPhotos = localStorage.getItem('gallery-photos')
-  if (savedPhotos) {
-    photos.value = JSON.parse(savedPhotos)
+// Para a sincronização quando o componente é desmontado
+onUnmounted(() => {
+  pararSincronizacaoFotos()
+})
+
+// Função para iniciar sincronização automática de fotos
+const iniciarSincronizacaoFotos = () => {
+  if (intervaloSincronizacao) {
+    clearInterval(intervaloSincronizacao)
+  }
+
+  intervaloSincronizacao = setInterval(() => {
+    carregarFotosDoServidor(true) // Carregamento silencioso
+  }, INTERVALO_SINCRONIZACAO_FOTOS)
+
+  console.log('🖼️ Sincronização automática de fotos iniciada')
+}
+
+// Função para parar sincronização automática de fotos
+const pararSincronizacaoFotos = () => {
+  if (intervaloSincronizacao) {
+    clearInterval(intervaloSincronizacao)
+    intervaloSincronizacao = null
+    console.log('⏹️ Sincronização de fotos parada')
   }
 }
 
-const savePhotosToStorage = () => {
-  localStorage.setItem('gallery-photos', JSON.stringify(photos.value))
-}
-
-const triggerFileInput = () => {
-  fileInput.value?.click()
-}
-
-const handleFileSelect = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  if (target.files) {
-    handleFiles(Array.from(target.files))
-  }
-}
-
-const handleDrop = (event: DragEvent) => {
-  if (event.dataTransfer?.files) {
-    handleFiles(Array.from(event.dataTransfer.files))
-  }
-}
-
-const handleFiles = (files: File[]) => {
-  files.forEach(file => {
-    if (file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const photo: Photo = {
-          id: generateId(),
-          name: file.name,
-          url: e.target?.result as string,
-          uploadDate: new Date(),
-          file
-        }
-        photos.value.push(photo)
-        savePhotosToStorage()
-      }
-      reader.readAsDataURL(file)
-    } else {
-      alert(`Arquivo ${file.name} é muito grande ou não é uma imagem válida.`)
+// Função para carregar fotos do servidor
+const carregarFotosDoServidor = async (silencioso = false) => {
+  try {
+    if (!silencioso) {
+      estaCarregandoFotos.value = true
     }
-  })
-}
 
-const generateId = (): string => {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2)
-}
+    const fotosCarregadas = await apiFotos.obterTodasFotos()
+    
+    // Verificar se há novas fotos
+    const fotosNovas = fotosCarregadas.filter(fotoNova => 
+      !fotos.value.some(fotoExistente => fotoExistente.id === fotoNova.id)
+    )
 
-const deletePhoto = (photoId: string) => {
-  if (confirm('Tem certeza que deseja excluir esta foto?')) {
-    photos.value = photos.value.filter(photo => photo.id !== photoId)
-    savePhotosToStorage()
+    if (fotosNovas.length > 0 && fotos.value.length > 0) {
+      console.log(`📸 ${fotosNovas.length} nova(s) foto(s) encontrada(s)`)
+    }
+
+    fotos.value = fotosCarregadas
+    
+    if (!silencioso) {
+      console.log('✅ Fotos carregadas:', fotos.value.length)
+    }
+  } catch (erro) {
+    console.error('❌ Erro ao carregar fotos:', erro)
+    if (!silencioso) {
+      alert('Erro ao carregar fotos. Verifique se o servidor está funcionando.')
+    }
+  } finally {
+    if (!silencioso) {
+      estaCarregandoFotos.value = false
+    }
   }
 }
 
-const downloadPhoto = (photo: Photo) => {
+// Função para acionar input de arquivo
+const acionarInputArquivo = () => {
+  inputArquivo.value?.click()
+}
+
+// Função para lidar com seleção de arquivo
+const lidarComSelecaoArquivo = (evento: Event) => {
+  const alvo = evento.target as HTMLInputElement
+  if (alvo.files) {
+    lidarComArquivos(Array.from(alvo.files))
+  }
+}
+
+// Função para lidar com arrastar e soltar
+const lidarComArrastar = (evento: DragEvent) => {
+  if (evento.dataTransfer?.files) {
+    lidarComArquivos(Array.from(evento.dataTransfer.files))
+  }
+}
+
+// Função principal para lidar com arquivos
+const lidarComArquivos = async (arquivos: File[]) => {
+  const arquivosValidos = arquivos.filter(arquivo => {
+    if (!arquivo.type.startsWith('image/')) {
+      alert(`Arquivo ${arquivo.name} não é uma imagem válida.`)
+      return false
+    }
+    if (arquivo.size > 5 * 1024 * 1024) {
+      alert(`Arquivo ${arquivo.name} é muito grande (máximo 5MB).`)
+      return false
+    }
+    return true
+  })
+
+  if (arquivosValidos.length === 0) return
+
+  estaEnviando.value = true
+
+  try {
+    const fotosEnviadas = await apiFotos.enviarFotos(arquivosValidos)
+    
+    // Adicionar novas fotos ao início da lista
+    fotos.value.unshift(...fotosEnviadas)
+    
+    // Limpar input de arquivo
+    if (inputArquivo.value) {
+      inputArquivo.value.value = ''
+    }
+
+    console.log('✅ Fotos enviadas com sucesso:', fotosEnviadas.length)
+    
+    // Recarregar fotos após um breve delay para garantir sincronização
+    setTimeout(() => {
+      carregarFotosDoServidor(true)
+    }, 2000)
+    
+  } catch (erro) {
+    console.error('❌ Erro ao fazer upload:', erro)
+    alert('Erro ao salvar as fotos. Tente novamente.')
+  } finally {
+    estaEnviando.value = false
+  }
+}
+
+// Função para deletar foto
+const deletarFoto = async (idFoto: string) => {
+  if (confirm('Tem certeza que deseja excluir esta foto permanentemente?')) {
+    try {
+      await apiFotos.deletarFoto(idFoto)
+      fotos.value = fotos.value.filter(foto => foto.id !== idFoto)
+      console.log('✅ Foto deletada com sucesso')
+      
+      // Recarregar fotos para sincronizar com outros usuários
+      setTimeout(() => {
+        carregarFotosDoServidor(true)
+      }, 1000)
+      
+    } catch (erro) {
+      console.error('❌ Erro ao deletar foto:', erro)
+      alert('Erro ao excluir a foto. Tente novamente.')
+    }
+  }
+}
+
+// Função para baixar foto
+const baixarFoto = (foto: Foto) => {
   const link = document.createElement('a')
-  link.href = photo.url
-  link.download = photo.name
+  link.href = foto.url
+  link.download = foto.nome
   link.click()
 }
 
-const openLightbox = (index: number) => {
-  currentPhotoIndex.value = index
-  lightboxOpen.value = true
+// Função para abrir lightbox
+const abrirLightbox = (indice: number) => {
+  indiceFotoAtual.value = indice
+  lightboxAberto.value = true
   document.body.style.overflow = 'hidden'
 }
 
-const closeLightbox = () => {
-  lightboxOpen.value = false
+// Função para fechar lightbox
+const fecharLightbox = () => {
+  lightboxAberto.value = false
   document.body.style.overflow = 'auto'
 }
 
-const nextPhoto = () => {
-  currentPhotoIndex.value = (currentPhotoIndex.value + 1) % photos.value.length
+// Função para próxima foto
+const proximaFoto = () => {
+  indiceFotoAtual.value = (indiceFotoAtual.value + 1) % fotos.value.length
 }
 
-const previousPhoto = () => {
-  currentPhotoIndex.value = currentPhotoIndex.value === 0 
-    ? photos.value.length - 1 
-    : currentPhotoIndex.value - 1
+// Função para foto anterior
+const fotoAnterior = () => {
+  indiceFotoAtual.value = indiceFotoAtual.value === 0 
+    ? fotos.value.length - 1 
+    : indiceFotoAtual.value - 1
 }
 
-const formatDate = (date: Date | string): string => {
-  const d = typeof date === 'string' ? new Date(date) : date
+// Função para formatar data
+const formatarData = (data: Date | string): string => {
+  const d = typeof data === 'string' ? new Date(data) : data
   return d.toLocaleDateString('pt-BR', {
     day: '2-digit',
     month: '2-digit',
@@ -227,22 +331,24 @@ const formatDate = (date: Date | string): string => {
 </script>
 
 <style scoped>
-.photo-gallery {
+/* Container principal */
+.galeria-fotos {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
 
-.gallery-header {
+/* Cabeçalho da galeria */
+.cabecalho-galeria {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-.gallery-title {
+.titulo-galeria {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--texto-primario);
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -250,33 +356,63 @@ const formatDate = (date: Date | string): string => {
   gap: 1rem;
 }
 
-.title-icon {
+.icone-titulo {
   font-size: 2rem;
 }
 
-.gallery-description {
+.descricao-galeria {
   font-size: 1.1rem;
-  color: var(--text-secondary);
+  color: var(--texto-secundario);
   line-height: 1.6;
+  margin-bottom: 1rem;
 }
 
-.upload-section {
+/* Indicador de sincronização de fotos */
+.indicador-sincronizacao-fotos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--fundo-sincronizacao);
+  border-radius: 15px;
+  border: 1px solid var(--borda-sincronizacao);
+}
+
+.spinner-sincronizacao {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--cor-spinner-track);
+  border-top: 2px solid var(--cor-primaria);
+  border-radius: 50%;
+  animation: girar 1s linear infinite;
+}
+
+.texto-sincronizacao {
+  font-size: 0.85rem;
+  color: var(--texto-sincronizacao);
+  font-weight: 500;
+}
+
+/* Seção de upload */
+.secao-upload {
   margin-bottom: 3rem;
 }
 
-.upload-area {
-  border: 3px dashed var(--primary-color);
+.area-upload {
+  border: 3px dashed var(--cor-primaria);
   border-radius: 20px;
   padding: 3rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: var(--upload-bg);
+  background: var(--fundo-upload);
   position: relative;
   overflow: hidden;
 }
 
-.upload-area::before {
+.area-upload::before {
   content: '';
   position: absolute;
   top: 0;
@@ -284,66 +420,70 @@ const formatDate = (date: Date | string): string => {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.1), transparent);
-  animation: shimmer 2s infinite;
+  animation: brilho 2s infinite;
 }
 
-.upload-area:hover {
-  border-color: var(--primary-color);
-  background: var(--upload-hover-bg);
+.area-upload:hover {
+  border-color: var(--cor-primaria);
+  background: var(--fundo-upload-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px var(--shadow-color);
+  box-shadow: 0 10px 30px var(--cor-sombra);
 }
 
-.upload-content {
+.conteudo-upload {
   position: relative;
   z-index: 2;
 }
 
-.upload-icon-container {
+.input-arquivo-oculto {
+  display: none;
+}
+
+.container-icone-upload {
   position: relative;
   display: inline-block;
   margin-bottom: 1.5rem;
 }
 
-.upload-icon {
+.icone-upload {
   font-size: 4rem;
   margin-bottom: 0.5rem;
-  animation: bounce 2s infinite;
+  animation: pular 2s infinite;
 }
 
-.click-indicator {
+.indicador-clique {
   position: absolute;
   top: -10px;
   right: -10px;
   font-size: 1.5rem;
-  animation: pulse-point 1.5s infinite;
+  animation: pulsar-ponto 1.5s infinite;
 }
 
-.upload-title {
+.titulo-upload {
   font-size: 1.8rem;
-  color: var(--text-primary);
+  color: var(--texto-primario);
   margin-bottom: 1rem;
   font-weight: 700;
 }
 
-.upload-instructions {
+.instrucoes-upload {
   margin-bottom: 1.5rem;
 }
 
-.primary-instruction {
+.instrucao-principal {
   font-size: 1.2rem;
-  color: var(--primary-color);
+  color: var(--cor-primaria);
   margin-bottom: 0.5rem;
   font-weight: 700;
-  animation: glow 2s ease-in-out infinite alternate;
+  animation: brilhar 2s ease-in-out infinite alternate;
 }
 
-.secondary-instruction {
-  color: var(--text-secondary);
+.instrucao-secundaria {
+  color: var(--texto-secundario);
   font-size: 1rem;
 }
 
-.upload-details {
+.detalhes-upload {
   display: flex;
   justify-content: center;
   gap: 1rem;
@@ -351,17 +491,17 @@ const formatDate = (date: Date | string): string => {
   margin-bottom: 1.5rem;
 }
 
-.detail-item {
-  background: var(--detail-bg);
+.item-detalhe {
+  background: var(--fundo-detalhe);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
-  color: var(--text-secondary);
-  border: 1px solid var(--detail-border);
+  color: var(--texto-secundario);
+  border: 1px solid var(--borda-detalhe);
 }
 
-.upload-button-visual {
-  background: linear-gradient(135deg, var(--primary-color), #8B5CF6);
+.botao-visual-upload {
+  background: linear-gradient(135deg, var(--cor-primaria), #8B5CF6);
   color: white;
   padding: 1rem 2rem;
   border-radius: 25px;
@@ -370,47 +510,69 @@ const formatDate = (date: Date | string): string => {
   font-size: 1.1rem;
   box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
   transition: all 0.3s ease;
-  animation: button-pulse 2s infinite;
+  animation: pulsar-botao 2s infinite;
 }
 
-.upload-area:hover .upload-button-visual {
+.area-upload:hover .botao-visual-upload {
   transform: scale(1.05);
   box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
 }
 
-.photos-grid {
+.texto-botao {
+  display: block;
+}
+
+/* Indicador de carregamento */
+.indicador-carregamento {
+  text-align: center;
+  padding: 2rem;
+  color: var(--texto-primario);
+}
+
+.spinner-carregamento {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--cor-borda);
+  border-top: 4px solid var(--cor-primaria);
+  border-radius: 50%;
+  animation: girar 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+/* Grade de fotos */
+.grade-fotos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
 }
 
-.photo-item {
+.item-foto {
   position: relative;
   aspect-ratio: 1;
   border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px var(--shadow-color);
+  box-shadow: 0 8px 25px var(--cor-sombra);
 }
 
-.photo-item:hover {
+.item-foto:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 35px var(--shadow-hover-color);
+  box-shadow: 0 15px 35px var(--cor-sombra-hover);
 }
 
-.photo-image {
+.imagem-foto {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.photo-item:hover .photo-image {
+.item-foto:hover .imagem-foto {
   transform: scale(1.05);
 }
 
-.photo-overlay {
+.sobreposicao-foto {
   position: absolute;
   top: 0;
   left: 0;
@@ -430,17 +592,17 @@ const formatDate = (date: Date | string): string => {
   padding: 1rem;
 }
 
-.photo-item:hover .photo-overlay {
+.item-foto:hover .sobreposicao-foto {
   opacity: 1;
 }
 
-.photo-actions {
+.acoes-foto {
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
 }
 
-.action-btn {
+.botao-acao {
   background: rgba(255, 255, 255, 0.9);
   border: none;
   border-radius: 50%;
@@ -454,78 +616,79 @@ const formatDate = (date: Date | string): string => {
   justify-content: center;
 }
 
-.action-btn:hover {
+.botao-acao:hover {
   background: white;
   transform: scale(1.1);
 }
 
-.delete-btn:hover {
+.botao-deletar:hover {
   background: #ff4757;
   color: white;
 }
 
-.download-btn:hover {
+.botao-baixar:hover {
   background: #2ed573;
   color: white;
 }
 
-.photo-info {
+.informacoes-foto {
   color: white;
   text-align: left;
 }
 
-.photo-name {
+.nome-foto {
   display: block;
   font-weight: 600;
   margin-bottom: 0.25rem;
   font-size: 0.9rem;
 }
 
-.photo-date {
+.data-foto {
   font-size: 0.8rem;
   opacity: 0.8;
 }
 
-.empty-gallery {
+/* Estado vazio */
+.galeria-vazia {
   text-align: center;
   padding: 4rem 2rem;
-  color: var(--text-secondary);
+  color: var(--texto-secundario);
 }
 
-.empty-icon {
+.icone-vazio {
   font-size: 4rem;
   margin-bottom: 1rem;
   opacity: 0.5;
 }
 
-.empty-gallery h3 {
+.galeria-vazia h3 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
+  color: var(--texto-primario);
 }
 
-.empty-cta {
+.chamada-vazia {
   margin-top: 2rem;
   padding: 1rem;
-  background: var(--cta-bg);
+  background: var(--fundo-chamada);
   border-radius: 15px;
-  border: 2px dashed var(--primary-color);
+  border: 2px dashed var(--cor-primaria);
 }
 
-.cta-arrow {
+.seta-chamada {
   font-size: 1.5rem;
   display: block;
   margin-bottom: 0.5rem;
-  animation: bounce-arrow 1.5s infinite;
+  animation: pular-seta 1.5s infinite;
 }
 
-.cta-text {
+.texto-chamada {
   font-weight: 600;
-  color: var(--primary-color);
+  color: var(--cor-primaria);
 }
 
 /* Lightbox */
-.lightbox-overlay {
+.sobreposicao-lightbox {
   position: fixed;
   top: 0;
   left: 0;
@@ -539,7 +702,7 @@ const formatDate = (date: Date | string): string => {
   padding: 2rem;
 }
 
-.lightbox-content {
+.conteudo-lightbox {
   position: relative;
   max-width: 90vw;
   max-height: 90vh;
@@ -548,7 +711,7 @@ const formatDate = (date: Date | string): string => {
   align-items: center;
 }
 
-.lightbox-image {
+.imagem-lightbox {
   max-width: 100%;
   max-height: 70vh;
   object-fit: contain;
@@ -556,7 +719,7 @@ const formatDate = (date: Date | string): string => {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
-.lightbox-close {
+.fechar-lightbox {
   position: absolute;
   top: -50px;
   right: -10px;
@@ -571,11 +734,11 @@ const formatDate = (date: Date | string): string => {
   transition: all 0.3s ease;
 }
 
-.lightbox-close:hover {
+.fechar-lightbox:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
-.lightbox-nav {
+.navegacao-lightbox {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -590,29 +753,29 @@ const formatDate = (date: Date | string): string => {
   transition: all 0.3s ease;
 }
 
-.lightbox-nav:hover {
+.navegacao-lightbox:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
-.lightbox-nav.prev {
+.navegacao-lightbox.anterior {
   left: -70px;
 }
 
-.lightbox-nav.next {
+.navegacao-lightbox.proxima {
   right: -70px;
 }
 
-.lightbox-info {
+.informacoes-lightbox {
   text-align: center;
   color: white;
   margin-top: 1rem;
 }
 
-.lightbox-info h3 {
+.informacoes-lightbox h3 {
   margin-bottom: 0.5rem;
 }
 
-.photo-counter {
+.contador-foto {
   display: block;
   margin-top: 0.5rem;
   opacity: 0.7;
@@ -620,12 +783,12 @@ const formatDate = (date: Date | string): string => {
 }
 
 /* Animações */
-@keyframes shimmer {
+@keyframes brilho {
   0% { left: -100%; }
   100% { left: 100%; }
 }
 
-@keyframes bounce {
+@keyframes pular {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
   }
@@ -637,7 +800,7 @@ const formatDate = (date: Date | string): string => {
   }
 }
 
-@keyframes pulse-point {
+@keyframes pulsar-ponto {
   0%, 100% {
     transform: scale(1);
     opacity: 1;
@@ -648,16 +811,16 @@ const formatDate = (date: Date | string): string => {
   }
 }
 
-@keyframes glow {
+@keyframes brilhar {
   from {
-    text-shadow: 0 0 5px var(--primary-color);
+    text-shadow: 0 0 5px var(--cor-primaria);
   }
   to {
-    text-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+    text-shadow: 0 0 20px var(--cor-primaria), 0 0 30px var(--cor-primaria);
   }
 }
 
-@keyframes button-pulse {
+@keyframes pulsar-botao {
   0%, 100% {
     transform: scale(1);
   }
@@ -666,7 +829,7 @@ const formatDate = (date: Date | string): string => {
   }
 }
 
-@keyframes bounce-arrow {
+@keyframes pular-seta {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
   }
@@ -678,35 +841,40 @@ const formatDate = (date: Date | string): string => {
   }
 }
 
-/* Responsive */
+@keyframes girar {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Design responsivo */
 @media (max-width: 768px) {
-  .photo-gallery {
+  .galeria-fotos {
     padding: 1rem;
   }
   
-  .gallery-title {
+  .titulo-galeria {
     font-size: 2rem;
   }
   
-  .photos-grid {
+  .grade-fotos {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
   }
   
-  .upload-area {
+  .area-upload {
     padding: 2rem 1rem;
   }
   
-  .upload-details {
+  .detalhes-upload {
     flex-direction: column;
     align-items: center;
   }
   
-  .lightbox-nav {
+  .navegacao-lightbox {
     display: none;
   }
   
-  .lightbox-close {
+  .fechar-lightbox {
     top: -40px;
     right: 0;
   }
@@ -714,32 +882,40 @@ const formatDate = (date: Date | string): string => {
 
 /* Variáveis CSS para temas */
 :root {
-  --text-primary: #374151;
-  --text-secondary: #6B7280;
-  --text-tertiary: #9CA3AF;
-  --primary-color: #EC4899;
-  --border-color: #E5E7EB;
-  --upload-bg: rgba(255, 255, 255, 0.1);
-  --upload-hover-bg: rgba(255, 255, 255, 0.2);
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --shadow-hover-color: rgba(0, 0, 0, 0.15);
-  --detail-bg: rgba(255, 255, 255, 0.5);
-  --detail-border: rgba(255, 255, 255, 0.3);
-  --cta-bg: rgba(255, 255, 255, 0.1);
+  --texto-primario: #374151;
+  --texto-secundario: #6B7280;
+  --texto-terciario: #9CA3AF;
+  --cor-primaria: #EC4899;
+  --cor-borda: #E5E7EB;
+  --fundo-upload: rgba(255, 255, 255, 0.1);
+  --fundo-upload-hover: rgba(255, 255, 255, 0.2);
+  --cor-sombra: rgba(0, 0, 0, 0.1);
+  --cor-sombra-hover: rgba(0, 0, 0, 0.15);
+  --fundo-detalhe: rgba(255, 255, 255, 0.5);
+  --borda-detalhe: rgba(255, 255, 255, 0.3);
+  --fundo-chamada: rgba(255, 255, 255, 0.1);
+  --fundo-sincronizacao: rgba(255, 255, 255, 0.7);
+  --borda-sincronizacao: rgba(0, 0, 0, 0.1);
+  --texto-sincronizacao: #6B7280;
+  --cor-spinner-track: rgba(0, 0, 0, 0.1);
 }
 
 :global(.dark-theme) {
-  --text-primary: #F9FAFB;
-  --text-secondary: #D1D5DB;
-  --text-tertiary: #9CA3AF;
-  --primary-color: #EC4899;
-  --border-color: #374151;
-  --upload-bg: rgba(0, 0, 0, 0.2);
-  --upload-hover-bg: rgba(0, 0, 0, 0.3);
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --shadow-hover-color: rgba(0, 0, 0, 0.4);
-  --detail-bg: rgba(0, 0, 0, 0.3);
-  --detail-border: rgba(255, 255, 255, 0.1);
-  --cta-bg: rgba(0, 0, 0, 0.2);
+  --texto-primario: #F9FAFB;
+  --texto-secundario: #D1D5DB;
+  --texto-terciario: #9CA3AF;
+  --cor-primaria: #EC4899;
+  --cor-borda: #374151;
+  --fundo-upload: rgba(0, 0, 0, 0.2);
+  --fundo-upload-hover: rgba(0, 0, 0, 0.3);
+  --cor-sombra: rgba(0, 0, 0, 0.3);
+  --cor-sombra-hover: rgba(0, 0, 0, 0.4);
+  --fundo-detalhe: rgba(0, 0, 0, 0.3);
+  --borda-detalhe: rgba(255, 255, 255, 0.1);
+  --fundo-chamada: rgba(0, 0, 0, 0.2);
+  --fundo-sincronizacao: rgba(0, 0, 0, 0.3);
+  --borda-sincronizacao: rgba(255, 255, 255, 0.1);
+  --texto-sincronizacao: #D1D5DB;
+  --cor-spinner-track: rgba(255, 255, 255, 0.1);
 }
 </style>

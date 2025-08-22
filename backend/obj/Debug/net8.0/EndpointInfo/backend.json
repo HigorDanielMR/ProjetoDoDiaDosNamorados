@@ -1,0 +1,172 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "backend",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/contagem/data-inicial": {
+      "get": {
+        "tags": [
+          "backend"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/contagem/tempo-atual": {
+      "get": {
+        "tags": [
+          "backend"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/contagem/calcular": {
+      "get": {
+        "tags": [
+          "backend"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/fotos/enviar": {
+      "post": {
+        "tags": [
+          "backend"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/fotos": {
+      "get": {
+        "tags": [
+          "backend"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/fotos/{idFoto}": {
+      "delete": {
+        "tags": [
+          "backend"
+        ],
+        "parameters": [
+          {
+            "name": "idFoto",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/perfis": {
+      "get": {
+        "tags": [
+          "backend"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/mensagens/{idPerfil}": {
+      "get": {
+        "tags": [
+          "backend"
+        ],
+        "parameters": [
+          {
+            "name": "idPerfil",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "backend"
+        ],
+        "parameters": [
+          {
+            "name": "idPerfil",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/perfis/{idPerfil}/foto": {
+      "post": {
+        "tags": [
+          "backend"
+        ],
+        "parameters": [
+          {
+            "name": "idPerfil",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}
