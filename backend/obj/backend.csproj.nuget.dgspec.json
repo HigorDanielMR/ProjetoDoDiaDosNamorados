@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\INVENT385\\Downloads\\ProjetoMozao\\project\\backend\\backend.csproj": {}
+    "D:\\ProjetoMozao\\project\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\INVENT385\\Downloads\\ProjetoMozao\\project\\backend\\backend.csproj": {
+    "D:\\ProjetoMozao\\project\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\INVENT385\\Downloads\\ProjetoMozao\\project\\backend\\backend.csproj",
+        "projectUniqueName": "D:\\ProjetoMozao\\project\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\INVENT385\\Downloads\\ProjetoMozao\\project\\backend\\backend.csproj",
+        "projectPath": "D:\\ProjetoMozao\\project\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\INVENT385\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\INVENT385\\Downloads\\ProjetoMozao\\project\\backend\\obj\\",
+        "outputPath": "D:\\ProjetoMozao\\project\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\Offline Packages",
@@ -81,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

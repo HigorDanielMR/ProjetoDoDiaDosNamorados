@@ -1,0 +1,67 @@
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\backend.staticwebassets.endpoints.json
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\backend.exe
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\backend.deps.json
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\backend.runtimeconfig.json
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\backend.dll
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\backend.pdb
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.csproj.AssemblyReference.cache
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.AssemblyInfoInputs.cache
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.AssemblyInfo.cs
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.csproj.CoreCompileInputs.cache
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\scopedcss\bundle\backend.styles.css
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.csproj.Up2Date
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.dll
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\refint\backend.dll
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.pdb
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\backend.genruntimeconfig.cache
+C:\Users\INVENT385\Downloads\project-bolt-sb1-twk9b9n8 (2)\project\backend\obj\Debug\net8.0\ref\backend.dll
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\uploads\mensagens-adriana-fernandes.json
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\uploads\metadados-fotos.json
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\backend.staticwebassets.endpoints.json
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\uploads\mensagens-ana-silva.json
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\uploads\mensagens-carlos-santos.json
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\backend.exe
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\backend.deps.json
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\backend.runtimeconfig.json
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\backend.dll
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\backend.pdb
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\ProjetoMozao\project\backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.csproj.AssemblyReference.cache
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.GeneratedMSBuildEditorConfig.editorconfig
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.AssemblyInfoInputs.cache
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.AssemblyInfo.cs
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.csproj.CoreCompileInputs.cache
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.MvcApplicationPartsAssemblyInfo.cs
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.MvcApplicationPartsAssemblyInfo.cache
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.sourcelink.json
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\rjimswa.dswa.cache.json
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\scopedcss\bundle\backend.styles.css
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\staticwebassets.build.json
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\staticwebassets.build.json.cache
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\staticwebassets.development.json
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.csproj.Up2Date
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.dll
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\refint\backend.dll
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.pdb
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\backend.genruntimeconfig.cache
+D:\ProjetoMozao\project\backend\obj\Debug\net8.0\ref\backend.dll

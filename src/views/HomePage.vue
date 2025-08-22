@@ -1,33 +1,33 @@
 <template>
-  <div class="home-container" :class="{ 'dark': isDark }">
-    <div class="content">
-      <div class="hero-section">
-        <div class="floating-hearts">
-          <div class="heart heart-1">💕</div>
-          <div class="heart heart-2">💖</div>
-          <div class="heart heart-3">💗</div>
-          <div class="heart heart-4">💝</div>
+  <div class="container-inicio" :class="{ 'escuro': temaEscuro }">
+    <div class="conteudo">
+      <div class="secao-heroi">
+        <div class="coracoes-flutuantes">
+          <div class="coracao coracao-1">💕</div>
+          <div class="coracao coracao-2">💖</div>
+          <div class="coracao coracao-3">💗</div>
+          <div class="coracao coracao-4">💝</div>
         </div>
         
-        <h1 class="title">
-          <span class="title-line">Um Momento</span>
-          <span class="title-line gradient-text">Especial</span>
+        <h1 class="titulo">
+          <span class="linha-titulo">Um Momento</span>
+          <span class="linha-titulo texto-gradiente">Especial</span>
         </h1>
         
-        <p class="subtitle">
+        <p class="subtitulo">
           Descubra o tempo que se passou desde um momento único
         </p>
         
         <button 
-          class="main-button"
-          @click="goToCountdown"
-          @mouseover="playHoverAnimation"
+          class="botao-principal"
+          @click="irParaContagem"
+          @mouseover="reproduzirAnimacaoHover"
         >
-          <span class="button-text">Clique aqui</span>
-          <div class="button-sparkles">
-            <div class="sparkle sparkle-1">✨</div>
-            <div class="sparkle sparkle-2">⭐</div>
-            <div class="sparkle sparkle-3">💫</div>
+          <span class="texto-botao">Clique aqui</span>
+          <div class="brilhos-botao">
+            <div class="brilho brilho-1">✨</div>
+            <div class="brilho brilho-2">⭐</div>
+            <div class="brilho brilho-3">💫</div>
           </div>
         </button>
       </div>
@@ -39,26 +39,26 @@
 import { useRouter } from 'vue-router'
 import { useTheme } from '../composables/useTheme'
 
-const router = useRouter()
-const { isDark } = useTheme()
+const roteador = useRouter()
+const { isDark: temaEscuro } = useTheme()
 
-const goToCountdown = () => {
-  router.push('/countdown')
+const irParaContagem = () => {
+  roteador.push('/countdown')
 }
 
-const playHoverAnimation = () => {
-  const button = document.querySelector('.main-button')
-  if (button) {
-    button.classList.add('pulse')
+const reproduzirAnimacaoHover = () => {
+  const botao = document.querySelector('.botao-principal')
+  if (botao) {
+    botao.classList.add('pulsar')
     setTimeout(() => {
-      button.classList.remove('pulse')
+      botao.classList.remove('pulsar')
     }, 300)
   }
 }
 </script>
 
 <style scoped>
-.home-container {
+.container-inicio {
   min-height: 100vh;
   background: linear-gradient(135deg, #FFF0F5 0%, #E6E6FA 50%, #FFC0CB 100%);
   display: flex;
@@ -70,18 +70,18 @@ const playHoverAnimation = () => {
   transition: all 0.3s ease;
 }
 
-.home-container.dark {
+.container-inicio.escuro {
   background: linear-gradient(135deg, #1F2937 0%, #374151 50%, #4B5563 100%);
 }
 
-.content {
+.conteudo {
   text-align: center;
   max-width: 600px;
   position: relative;
   z-index: 2;
 }
 
-.floating-hearts {
+.coracoes-flutuantes {
   position: absolute;
   top: 0;
   left: 0;
@@ -91,75 +91,75 @@ const playHoverAnimation = () => {
   z-index: 1;
 }
 
-.heart {
+.coracao {
   position: absolute;
   font-size: 2rem;
   opacity: 0.3;
-  animation: float 6s ease-in-out infinite;
+  animation: flutuar 6s ease-in-out infinite;
 }
 
-.heart-1 {
+.coracao-1 {
   top: 10%;
   left: 10%;
   animation-delay: 0s;
 }
 
-.heart-2 {
+.coracao-2 {
   top: 20%;
   right: 15%;
   animation-delay: 2s;
 }
 
-.heart-3 {
+.coracao-3 {
   bottom: 20%;
   left: 20%;
   animation-delay: 4s;
 }
 
-.heart-4 {
+.coracao-4 {
   bottom: 10%;
   right: 10%;
   animation-delay: 1s;
 }
 
-.hero-section {
+.secao-heroi {
   position: relative;
   padding: 3rem 2rem;
-  background: var(--hero-bg);
+  background: var(--fundo-heroi);
   backdrop-filter: blur(10px);
   border-radius: 30px;
-  box-shadow: var(--hero-shadow);
-  border: 1px solid var(--hero-border);
+  box-shadow: var(--sombra-heroi);
+  border: 1px solid var(--borda-heroi);
   transition: all 0.3s ease;
 }
 
-.title {
+.titulo {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
 
-.title-line {
+.linha-titulo {
   display: block;
-  color: var(--title-color);
+  color: var(--cor-titulo);
 }
 
-.gradient-text {
+.texto-gradiente {
   background: linear-gradient(45deg, #EC4899, #8B5CF6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.subtitle {
+.subtitulo {
   font-size: 1.25rem;
-  color: var(--subtitle-color);
+  color: var(--cor-subtitulo);
   margin-bottom: 3rem;
   line-height: 1.6;
 }
 
-.main-button {
+.botao-principal {
   position: relative;
   background: linear-gradient(135deg, #EC4899, #8B5CF6);
   color: white;
@@ -176,25 +176,25 @@ const playHoverAnimation = () => {
   overflow: hidden;
 }
 
-.main-button:hover {
+.botao-principal:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 35px rgba(236, 72, 153, 0.4);
 }
 
-.main-button:active {
+.botao-principal:active {
   transform: translateY(-1px);
 }
 
-.main-button.pulse {
-  animation: pulse 0.3s ease;
+.botao-principal.pulsar {
+  animation: pulsar 0.3s ease;
 }
 
-.button-text {
+.texto-botao {
   position: relative;
   z-index: 2;
 }
 
-.button-sparkles {
+.brilhos-botao {
   position: absolute;
   top: 0;
   left: 0;
@@ -203,31 +203,31 @@ const playHoverAnimation = () => {
   pointer-events: none;
 }
 
-.sparkle {
+.brilho {
   position: absolute;
   opacity: 0;
-  animation: sparkle 2s ease-in-out infinite;
+  animation: brilhar 2s ease-in-out infinite;
 }
 
-.sparkle-1 {
+.brilho-1 {
   top: 20%;
   left: 20%;
   animation-delay: 0s;
 }
 
-.sparkle-2 {
+.brilho-2 {
   top: 60%;
   right: 25%;
   animation-delay: 0.7s;
 }
 
-.sparkle-3 {
+.brilho-3 {
   bottom: 25%;
   left: 60%;
   animation-delay: 1.4s;
 }
 
-@keyframes float {
+@keyframes flutuar {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
   }
@@ -236,7 +236,7 @@ const playHoverAnimation = () => {
   }
 }
 
-@keyframes pulse {
+@keyframes pulsar {
   0% {
     transform: scale(1);
   }
@@ -248,7 +248,7 @@ const playHoverAnimation = () => {
   }
 }
 
-@keyframes sparkle {
+@keyframes brilhar {
   0%, 100% {
     opacity: 0;
     transform: scale(0);
@@ -261,55 +261,55 @@ const playHoverAnimation = () => {
 
 /* Variáveis CSS para temas */
 :root {
-  --hero-bg: rgba(255, 255, 255, 0.1);
-  --hero-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  --hero-border: rgba(255, 255, 255, 0.2);
-  --title-color: #6B46C1;
-  --subtitle-color: #6B7280;
+  --fundo-heroi: rgba(255, 255, 255, 0.1);
+  --sombra-heroi: 0 20px 40px rgba(0, 0, 0, 0.1);
+  --borda-heroi: rgba(255, 255, 255, 0.2);
+  --cor-titulo: #6B46C1;
+  --cor-subtitulo: #6B7280;
 }
 
-.dark .hero-section {
-  --hero-bg: rgba(0, 0, 0, 0.2);
-  --hero-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  --hero-border: rgba(255, 255, 255, 0.1);
-  --title-color: #E5E7EB;
-  --subtitle-color: #D1D5DB;
+.escuro .secao-heroi {
+  --fundo-heroi: rgba(0, 0, 0, 0.2);
+  --sombra-heroi: 0 20px 40px rgba(0, 0, 0, 0.3);
+  --borda-heroi: rgba(255, 255, 255, 0.1);
+  --cor-titulo: #E5E7EB;
+  --cor-subtitulo: #D1D5DB;
 }
 
-/* Responsive Design */
+/* Design Responsivo */
 @media (max-width: 768px) {
-  .home-container {
+  .container-inicio {
     padding: 1rem;
   }
   
-  .title {
+  .titulo {
     font-size: 2.5rem;
   }
   
-  .subtitle {
+  .subtitulo {
     font-size: 1.1rem;
   }
   
-  .main-button {
+  .botao-principal {
     padding: 1.25rem 2.5rem;
     font-size: 1.1rem;
   }
   
-  .hero-section {
+  .secao-heroi {
     padding: 2rem 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .title {
+  .titulo {
     font-size: 2rem;
   }
   
-  .subtitle {
+  .subtitulo {
     font-size: 1rem;
   }
   
-  .main-button {
+  .botao-principal {
     padding: 1rem 2rem;
     font-size: 1rem;
   }
